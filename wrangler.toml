@@ -1,8 +1,6 @@
- * --- wrangler.toml の例 ---
  * name = "realtime-token-worker"
  * main = "realtime-token-worker.js"
  * compatibility_date = "2026-01-01"
  *
  * [vars]
- * ALLOWED_ORIGIN = "https://github.com/pluteus/realtime-token-worker/"
- * ---------------------------
+ * ALLOWED_ORIGIN = "https://pluteus.github.io"
