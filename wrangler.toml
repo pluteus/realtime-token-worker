@@ -4,5 +4,5 @@
  * compatibility_date = "2026-01-01"
  *
  * [vars]
- * ALLOWED_ORIGIN = "https://yourname.github.io"
+ * ALLOWED_ORIGIN = "https://github.com/pluteus/realtime-token-worker/"
  * ---------------------------
