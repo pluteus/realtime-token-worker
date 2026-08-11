@@ -1,6 +1,6 @@
- * name = "realtime-token-worker"
- * main = "realtime-token-worker.js"
- * compatibility_date = "2026-01-01"
- *
- * [vars]
- * ALLOWED_ORIGIN = "https://pluteus.github.io"
+name = "realtime-token-worker"
+main = "realtime-token-worker.js"
+compatibility_date = "2026-01-01"
+ 
+[vars]
+ALLOWED_ORIGIN = "https://pluteus.github.io"
