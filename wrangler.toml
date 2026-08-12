@@ -3,7 +3,7 @@ main = "gemini-live-token-worker.js"
 compatibility_date = "2026-01-01"
 
 [vars]
-ALLOWED_ORIGIN = "https://yourname.github.io"
+ALLOWED_ORIGIN = "https://pluteus3.github.io"
 LIVE_MODEL = "gemini-3.1-flash-live-preview"
 # LIVE_VOICE = "Puck"
 
