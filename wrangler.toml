@@ -1,6 +1,11 @@
-name = "realtime-token-worker"
-main = "realtime-token-worker.js"
+name = "gemini-live-token-worker"
+main = "gemini-live-token-worker.js"
 compatibility_date = "2026-01-01"
- 
+
 [vars]
-ALLOWED_ORIGIN = "https://pluteus.github.io"
+ALLOWED_ORIGIN = "https://yourname.github.io"
+LIVE_MODEL = "gemini-3.1-flash-live-preview"
+# LIVE_VOICE = "Puck"
+
+# シークレットは以下のコマンドで登録してください(このファイルには書かない):
+#   wrangler secret put GEMINI_API_KEY
