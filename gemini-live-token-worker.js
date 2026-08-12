@@ -32,11 +32,12 @@
  *  - ALLOWED_ORIGIN は "*" のままでも動作しますが、
  *    第三者があなたのAPI利用枠を消費できてしまうため、
  *    本番運用では自分のGitHub Pagesのオリジンに限定することを推奨します。
- *  - このトークンは liveConnectConstraints で model / responseModalities を
- *    サーバー側で固定しています。これにより、万一トークンが漏れても
- *    別モデルへの切り替えや設定改変(コード実行ツールの有効化など)を
- *    防げます。systemInstruction はロックしていないため、ブラウザ側の
- *    「指示(任意)」欄からその場でキャラクター設定を渡せます。
+ *  - このトークンは「使い切り(uses:1)・短命(既定30分)」ではありますが、
+ *    modelや設定をサーバー側にロックする機能(liveConnectConstraints)は
+ *    現時点のAPIでは使えないため付けていません。つまりトークンを知っていれば
+ *    (有効期限内・1回だけ)任意のmodel/システムプロンプトで接続できてしまいます。
+ *    実キーそのものよりは影響範囲が小さいですが、ALLOWED_ORIGINの限定と
+ *    トークンの短い有効期限が主な防御線になります。
  *  - このWorker自体はレートリミットを行っていません。
  *    必要であればCloudflareのRate Limitingルールを別途設定してください。
  */
@@ -66,31 +67,19 @@ export default {
     }
 
     const model = env.LIVE_MODEL || 'gemini-3.1-flash-live-preview';
-    const voice = env.LIVE_VOICE || '';
 
     try {
       const now = Date.now();
-      const liveConfig = {
-        responseModalities: ['AUDIO'],
-        inputAudioTranscription: {},
-        outputAudioTranscription: {},
-      };
-      if (voice) {
-        liveConfig.speechConfig = {
-          voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } },
-        };
-      }
-
+      // 注: liveConnectConstraints でmodel/configをサーバー側にロックする機能はドキュメント上
+      // 存在するものの、2026年8月時点のAPIでは "Unknown name liveConnectConstraints" として
+      // 拒否されるため、ここでは付けずに素のephemeralトークンだけを発行している。
+      // (将来APIが対応したら、ここにlive_connect_constraintsを追加すれば良い)
       const tokenReq = {
         uses: 1,
         // トークン自体の有効期限(この時間内に新規セッションを開始し、接続を維持できる)
         expireTime: new Date(now + 30 * 60 * 1000).toISOString(),
         // 「セッション開始」に使える猶予(発行後すぐに接続しない場合はここを延ばす)
         newSessionExpireTime: new Date(now + 5 * 60 * 1000).toISOString(),
-        liveConnectConstraints: {
-          model: `models/${model}`,
-          config: liveConfig,
-        },
       };
 
       const resp = await fetch('https://generativelanguage.googleapis.com/v1beta/auth_tokens', {
