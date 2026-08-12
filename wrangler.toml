@@ -5,7 +5,7 @@ compatibility_date = "2026-01-01"
 [vars]
 ALLOWED_ORIGIN = "https://pluteus3.github.io"
 LIVE_MODEL = "gemini-3.1-flash-live-preview"
-# LIVE_VOICE = "Puck"
+LIVE_VOICE = "Puck"
 
 # シークレットは以下のコマンドで登録してください(このファイルには書かない):
 #   wrangler secret put GEMINI_API_KEY
